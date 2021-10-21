@@ -9,11 +9,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'index',
     component: Index
   },
-  {
-    path: '/chat-room',
-    name: 'chatRoom',
-    component: ChatRoom
-  },
+  // {
+  //   path: '/chat-room',
+  //   name: 'chatRoom',
+  //   component: ChatRoom
+  // },
   {
     path: '/about',
     name: 'About',
