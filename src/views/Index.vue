@@ -128,7 +128,15 @@
 
     .chat-room {
         height: 100vh;
+        padding: 12px;
         background: url('https://cdn.pixabay.com/photo/2015/03/21/09/00/snow-683319_1280.jpg');
+
+        .chat-room-title {
+            width: fit-content;
+            margin: 12px auto;
+            color: $white;
+            background-color: $alpha-black;
+        }
 
         .chat, .input-send {
             border: 1px solid $white;
