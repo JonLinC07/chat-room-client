@@ -1,4 +1,4 @@
-<template v-for="(msg, index) in conversation" :item="msg" :index="index" :key="msg.id">
+<template v-for="(msg, index) in conversation" :item="msg" :index="index" :key="msg.message">
     <div class="message">
         <p class="message-text">
             {{ message }}

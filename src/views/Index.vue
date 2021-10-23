@@ -37,15 +37,7 @@
     import Message from '@/components/Message.vue';
     import { Options, Vue } from 'vue-class-component';
     import SocketService from '../services/socket.service';
-    import { io } from 'socket.io-client';
-
-    
-    interface ChatMessage {
-        id: number
-        author: string
-        message: string
-        date: string
-    }
+    import ChatMessage from '../models/chat-message.model';
 
     @Options({
         components: { Message },
@@ -71,7 +63,6 @@
             if (message.length > 0) {
                 const dateMessage = `${new Date().toDateString()} at ${new Date().toTimeString().split(' ')[0]}`
                 const msg: ChatMessage = {
-                    id: this.conversation.length + 1, 
                     author: this.username,
                     message: this.message,
                     date: dateMessage
