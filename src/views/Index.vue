@@ -36,6 +36,9 @@
 <script lang="ts">
     import Message from '@/components/Message.vue';
     import { Options, Vue } from 'vue-class-component';
+    import SocketService from '../services/socket.service';
+    import { io } from 'socket.io-client';
+
     
     interface ChatMessage {
         id: number
@@ -73,7 +76,8 @@
                     message: this.message,
                     date: dateMessage
                 }
-
+                
+                SocketService.sendMessage(message)
                 this.conversation.push(msg);
                 this.message = ''
             }

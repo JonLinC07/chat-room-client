@@ -8,6 +8,16 @@ class SocketService {
             transports: ['websocket'] 
         })
     }
+
+    sendMessage(message: string): void {
+        this.socket.emit('sendMessage', message)
+    }
+
+    emitMessage(): void {
+        this.socket.on('emitMessage', (message: string) => {
+            console.log(message);
+        })
+    }
 }
 
 export default new SocketService()
