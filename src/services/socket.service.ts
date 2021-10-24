@@ -10,8 +10,6 @@ class SocketService {
         this.socket = io('http://localhost:3000', {
             transports: ['websocket'] 
         })
-
-        this.emitMessage()
     }
 
     sendMessage(message: ChatMessage): void {

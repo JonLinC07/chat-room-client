@@ -2,7 +2,7 @@
     <div class="index" v-if="!showChatRoom">
         <h1 class="title">The Chat Room</h1>
         <div class="username d-flex flex-column align-items-center justify-content-center">
-            <h3 class="username-text my-3">Write a username</h3><h3>{{ $store.getters.number }}</h3>
+            <h3 class="username-text my-3">Write a username</h3>
             <input type="text" class="username-input mx-auto my-2" name="username" v-model="username"
                 v-on:keyup.enter="getUsername(username)">
             <h5 class="username-error my-3">{{ error }}</h5>
@@ -17,7 +17,7 @@
         <div class="chat mx-auto">
             <div class="messages">
                 <div class="msg d-flex flex-column align-items-end">
-                    <Message v-for="(msg, index) in $store.state.conversation" :key="index"
+                    <Message v-for="(msg, index) in $store.state.conversation.slice().reverse()" :key="index"
                         :author="msg.author" 
                         :message="msg.message"
                         :date="msg.date"

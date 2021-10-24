@@ -9,6 +9,7 @@
     components: {},
     created() {
       SocketService.socketConnection()
+      SocketService.emitMessage()
     }
   })
   export default class App extends Vue {}
