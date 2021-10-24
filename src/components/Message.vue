@@ -1,4 +1,4 @@
-<template v-for="(msg, index) in conversation" :item="msg" :index="index" :key="msg.message">
+<template v-for="(msg, index) in $store.state.conversation" :item="msg" :index="index" :key="index">
     <div class="message">
         <p class="message-text">
             {{ message }}
@@ -13,6 +13,7 @@
 
 <script lang="ts">
     import { Options, Vue } from 'vue-class-component';
+    // import SocketService from '../services/socket.service';
 
     @Options({
         props: ['author', 'message', 'date'],

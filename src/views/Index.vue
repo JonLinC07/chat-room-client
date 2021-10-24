@@ -2,8 +2,9 @@
     <div class="index" v-if="!showChatRoom">
         <h1 class="title">The Chat Room</h1>
         <div class="username d-flex flex-column align-items-center justify-content-center">
-            <h3 class="username-text my-3">Write a username</h3>
-            <input type="text" class="username-input mx-auto my-2" name="username" v-model="username">
+            <h3 class="username-text my-3">Write a username</h3><h3>{{ $store.getters.number }}</h3>
+            <input type="text" class="username-input mx-auto my-2" name="username" v-model="username"
+                v-on:keyup.enter="getUsername(username)">
             <h5 class="username-error my-3">{{ error }}</h5>
 
             <button class="btn btn-success my-2" v-on:click="getUsername(username)">Go to the room</button>
@@ -16,7 +17,7 @@
         <div class="chat mx-auto">
             <div class="messages">
                 <div class="msg d-flex flex-column align-items-end">
-                    <Message v-for="msg in conversation" :key="msg.id"
+                    <Message v-for="(msg, index) in $store.state.conversation" :key="index"
                         :author="msg.author" 
                         :message="msg.message"
                         :date="msg.date"
@@ -27,7 +28,7 @@
         
         <div class="input-send d-flex justify-content-between mx-auto">
             <input type="text" class="message-box" v-on:keyup.enter="sendMessage(message)" 
-                ref="messageRef" v-model="message">
+                v-model="message">
             <button type="button" class="btn-send btn-light" v-on:click="sendMessage(message)">Send</button>
         </div>
     </div>
@@ -47,7 +48,6 @@
         username = ''
         showChatRoom = false
         message = ''
-        conversation: ChatMessage[] = []
 
         getUsername(username: string): void {
             if (username.length > 0) {
@@ -67,9 +67,8 @@
                     message: this.message,
                     date: dateMessage
                 }
-                
-                SocketService.sendMessage(message)
-                this.conversation.push(msg);
+
+                SocketService.sendMessage(msg)
                 this.message = ''
             }
         }

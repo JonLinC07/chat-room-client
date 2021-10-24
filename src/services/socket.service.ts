@@ -1,4 +1,7 @@
+import ChatMessage from '@/models/chat-message.model';
+import store from '@/store';
 import { io } from 'socket.io-client';
+
 
 class SocketService {
     socket: any
@@ -8,13 +11,20 @@ class SocketService {
             transports: ['websocket'] 
         })
 
-        this.socket.on('emitMessage', (message: string) => {
-            console.log(message);
-        })
+        this.emitMessage()
     }
 
-    sendMessage(message: string): void {
+    sendMessage(message: ChatMessage): void {
         this.socket.emit('sendMessage', message)
+        
+    }
+
+    emitMessage() {
+        this.socket.on('emitMessage', (message: ChatMessage) => {
+            store.state.message = message
+            store.dispatch('appendMessageAction')
+            console.log(store.state.conversation);
+        })
     }
 }
 
