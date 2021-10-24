@@ -1,5 +1,5 @@
 <template v-for="(msg, index) in $store.state.conversation" :item="msg" :index="index" :key="index">
-    <div class="message">
+    <div class="message" v-bind:class="(author !== $store.state.username) ? 'recived' : 'self'">
         <p class="message-text">
             {{ message }}
         </p>
@@ -13,10 +13,9 @@
 
 <script lang="ts">
     import { Options, Vue } from 'vue-class-component';
-    // import SocketService from '../services/socket.service';
 
     @Options({
-        props: ['author', 'message', 'date'],
+        props: ['author', 'message', 'date']
     })
     export default class Message extends Vue {}
 </script>
@@ -30,7 +29,6 @@
         padding: 16px;
         margin: 6px 0;
         border-radius: 32px;
-        background-color: $green-light;
 
         p {
             margin: 0;
@@ -50,5 +48,14 @@
         .date {
             font-size: 16px;
         }
+    }
+
+    .self {
+        background-color: $green-light;
+    }
+
+    .recived {
+        align-self: flex-start;
+        background-color: $blue;
     }
 </style>

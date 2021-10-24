@@ -21,7 +21,18 @@ class SocketService {
         this.socket.on('emitMessage', (message: ChatMessage) => {
             store.state.message = message
             store.dispatch('appendMessageAction')
-            console.log(store.state.conversation);
+        })
+    }
+
+    snedUser(username: string): void {
+        this.socket.emit('createUsername', username, (response: boolean) => {
+            if (response) {
+                store.state.username = username
+                store.state.validUsername = true
+            } else {
+                store.state.username = ''
+                store.state.validUsername = false
+            }
         })
     }
 }

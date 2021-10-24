@@ -4,7 +4,9 @@ import ChatMessage from '../models/chat-message.model';
 export default createStore({
     state: {
         conversation: [] as ChatMessage[],
-        message: Object as ChatMessage
+        message: Object as ChatMessage,
+        username: '',
+        validUsername: false
     },
     mutations: {
         appendMessage(state) {

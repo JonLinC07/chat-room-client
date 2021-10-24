@@ -1,5 +1,5 @@
 <template>
-    <div class="index" v-if="!showChatRoom">
+    <div class="index" v-if="!$store.state.validUsername">
         <h1 class="title">The Chat Room</h1>
         <div class="username d-flex flex-column align-items-center justify-content-center">
             <h3 class="username-text my-3">Write a username</h3>
@@ -11,10 +11,10 @@
         </div>
     </div>
 
-    <div class="chat-room" v-if="showChatRoom">
+    <div class="chat-room" v-if="$store.state.validUsername">
         <h1 class="chat-room-title">Chat Room</h1>
 
-        <div class="chat mx-auto">
+        <div class="chat mx-auto" ref="chatBox" id="chat-box">
             <div class="messages">
                 <div class="msg d-flex flex-column align-items-end">
                     <Message v-for="(msg, index) in $store.state.conversation.slice().reverse()" :key="index"
@@ -28,7 +28,7 @@
         
         <div class="input-send d-flex justify-content-between mx-auto">
             <input type="text" class="message-box" v-on:keyup.enter="sendMessage(message)" 
-                v-model="message">
+                v-model="message" ref="chatInput">
             <button type="button" class="btn-send btn-light" v-on:click="sendMessage(message)">Send</button>
         </div>
     </div>
@@ -42,18 +42,25 @@
 
     @Options({
         components: { Message },
+        updated() {
+            this.scrollChat()
+        }
     })
     export default class Index extends Vue {
         error = ''
         username = ''
-        showChatRoom = false
         message = ''
 
         getUsername(username: string): void {
             if (username.length > 0) {
                 // save user and go to room
-                this.error = ''
-                this.showChatRoom = true
+                SocketService.snedUser(this.username)
+
+                if (!this.$store.state.validUsername) {
+                    this.error = 'This username is already taken'
+                } else {
+                    this.error = ''
+                }
             } else {
                 this.error = 'Your username must be at least 3 characters long'
             }
@@ -70,6 +77,14 @@
 
                 SocketService.sendMessage(msg)
                 this.message = ''
+            }
+        }
+
+        scrollChat(): void {
+            // (this.$refs['chatBox'] as any).scrollIntoView({behavior: 'smooth'})
+            let chatBox = document.getElementById('chat-box')
+            if (chatBox) {
+                chatBox.scrollTop = chatBox.scrollHeight
             }
         }
     }
@@ -93,7 +108,7 @@
         }
 
         .username {
-            width: 100%;
+            width: 80%;
             height: 420px;
             max-width: 760px;
             margin: 16px;
@@ -139,6 +154,7 @@
         }
 
         .chat {
+            overflow-y: auto;
             width: 60%;
             height: 70%;
             margin: 16px;
@@ -177,4 +193,43 @@
             }
         }
     }
+
+/* width */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: $blue; 
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: $green-light; 
+}
+
+// responsive design
+@media only screen and (max-width: 930px) {
+    .chat-room {
+        .chat, .input-send {
+            width: 90%;
+        }
+    }
+}
+
+@media only screen and (max-width: 820px) {
+    .chat-room {
+        .input-send {
+            .message-box {
+                width: 75%;
+            }
+            
+            .btn-send {
+                width: 20%;
+            }
+        }
+    }
+}
 </style>
