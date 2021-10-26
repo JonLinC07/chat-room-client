@@ -14,7 +14,6 @@ class SocketService {
 
     sendMessage(message: ChatMessage): void {
         this.socket.emit('sendMessage', message)
-        
     }
 
     emitMessage() {
@@ -26,6 +25,7 @@ class SocketService {
 
     snedUser(username: string): void {
         this.socket.emit('createUsername', username, (response: boolean) => {
+
             if (response) {
                 store.state.username = username
                 store.state.validUsername = true
@@ -33,6 +33,13 @@ class SocketService {
                 store.state.username = ''
                 store.state.validUsername = false
             }
+        })
+    }
+
+    loadChatHistory() {
+        this.socket.on('loadChatHistory', (chatHistory: ChatMessage[]) => {
+            console.log(chatHistory)
+            // store.state.conversation = chatHistory
         })
     }
 }

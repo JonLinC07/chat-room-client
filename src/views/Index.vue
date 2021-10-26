@@ -81,7 +81,6 @@
         }
 
         scrollChat(): void {
-            // (this.$refs['chatBox'] as any).scrollIntoView({behavior: 'smooth'})
             let chatBox = document.getElementById('chat-box')
             if (chatBox) {
                 chatBox.scrollTop = chatBox.scrollHeight
@@ -130,6 +129,7 @@
             }
 
             .username-error {
+                text-align: center;
                 color: $red;
             }
         }
