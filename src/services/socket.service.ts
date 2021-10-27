@@ -35,13 +35,6 @@ class SocketService {
             }
         })
     }
-
-    loadChatHistory() {
-        this.socket.on('loadChatHistory', (chatHistory: ChatMessage[]) => {
-            console.log(chatHistory)
-            // store.state.conversation = chatHistory
-        })
-    }
 }
 
 export default new SocketService()

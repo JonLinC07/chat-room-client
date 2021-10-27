@@ -18,10 +18,6 @@ export default createStore({
             context.commit('appendMessage')
         }
     },
-    modules: {
-
-    },
-    getters: {
-
-    }
+    modules: {},
+    getters: {}
 })

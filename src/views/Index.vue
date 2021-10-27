@@ -55,6 +55,8 @@
             if (username.length > 0) {
                 // save user and go to room
                 SocketService.snedUser(this.username)
+                this.getConversationHistory()
+
 
                 if (!this.$store.state.validUsername) {
                     this.error = 'This username is already taken'
@@ -85,6 +87,17 @@
             if (chatBox) {
                 chatBox.scrollTop = chatBox.scrollHeight
             }
+        }
+
+        getConversationHistory(): void {
+            fetch('http://localhost:3000/conversation')
+                .then(response => response.json())
+                .then(data => {
+                    this.$store.state.conversation = data
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
         }
     }
 </script>
